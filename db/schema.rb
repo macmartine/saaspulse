@@ -10,9 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_31_003438) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_27_184153) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "stripe_user_id"
+    t.string "url"
+    t.string "logo"
+    t.string "timezone"
+    t.datetime "created_at", precision: nil
+    t.string "stripe_customer_id"
+    t.string "stripe_subscription_id"
+    t.datetime "trial_end", precision: nil
+    t.string "stripe_status"
+    t.string "email"
+    t.index ["stripe_user_id"], name: "stripe_user_id_idx", unique: true
+  end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
     t.integer "status", default: 0, null: false
@@ -59,6 +74,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_003438) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "customers", id: :serial, force: :cascade do |t|
+    t.integer "account_id"
+    t.string "stripe_customer_id"
+    t.string "email"
+    t.jsonb "subscriptions"
+    t.index ["stripe_customer_id"], name: "stripe_customer_id_idx", unique: true
   end
 
   create_table "integrations_stripe_installations", force: :cascade do |t|
@@ -225,6 +248,54 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_003438) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["membership_id"], name: "index_tangible_things_assignments_on_membership_id"
     t.index ["tangible_thing_id"], name: "index_tangible_things_assignments_on_tangible_thing_id"
+  end
+
+  create_table "stripe_customers", force: :cascade do |t|
+    t.integer "account_id"
+    t.string "customer_id"
+    t.string "email"
+    t.jsonb "subscriptions"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "stripe_subscriptions", force: :cascade do |t|
+    t.integer "stripe_customer_id"
+    t.string "subscription_id"
+    t.datetime "cancel_at", precision: nil
+    t.datetime "canceled_at", precision: nil
+    t.jsonb "cancellation_details"
+    t.datetime "created", precision: nil
+    t.jsonb "discount"
+    t.datetime "ended_at", precision: nil
+    t.jsonb "plan"
+    t.integer "quantity"
+    t.datetime "start_date", precision: nil
+    t.string "status"
+    t.datetime "trial_end", precision: nil
+    t.datetime "trial_start", precision: nil
+    t.integer "price_after_discount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subscriptions", id: :serial, force: :cascade do |t|
+    t.integer "customer_id"
+    t.string "stripe_subscription_id"
+    t.datetime "cancel_at", precision: nil
+    t.datetime "canceled_at", precision: nil
+    t.jsonb "cancellation_details"
+    t.datetime "created", precision: nil
+    t.jsonb "discount"
+    t.datetime "ended_at", precision: nil
+    t.jsonb "plan"
+    t.integer "quantity"
+    t.datetime "start_date", precision: nil
+    t.string "status"
+    t.datetime "trial_end", precision: nil
+    t.datetime "trial_start", precision: nil
+    t.integer "price_after_discount"
+    t.index ["stripe_subscription_id"], name: "stripe_subscription_id_idx", unique: true
   end
 
   create_table "teams", id: :serial, force: :cascade do |t|
