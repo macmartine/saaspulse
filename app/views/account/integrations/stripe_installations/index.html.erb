@@ -1,0 +1,6 @@
+<% # Ejected from `bullet_train-integrations-stripe-1.3.17`. %>
+
+<%= render 'account/shared/page' do |page| %>
+  <% page.title t('.section') %>
+  <% page.body.render 'index', stripe_installations: @stripe_installations, hide_actions: @stripe_installations.present? %>
+<% end %>
