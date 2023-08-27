@@ -4,7 +4,7 @@
 BulletTrain::Themes::Light.color = :blue
 
 # The orientation of the navbar.
-# BulletTrain::Themes::Light.navigation = :left
+BulletTrain::Themes::Light.navigation = :left
 #
 # The logo shown in the navbar.
-# BulletTrain::Themes::Light.show_logo_in_account = true
+BulletTrain::Themes::Light.show_logo_in_account = false

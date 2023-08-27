@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  database: untitled_application_development
+  database: saaspulse
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -80,7 +80,7 @@ test:
 #
 production:
   <<: *default
-  database: untitled_application_production
-  username: untitled_application
-  password: <%= ENV['UNTITLED_APPLICATION_DATABASE_PASSWORD'] %>
+  database: saaspulse
+  username: saaspulse_user
+  password: <%= ENV['SAASPULSE_DB_PASSWORD'] %>
   url: <%= ENV['DATABASE_URL'] %>
