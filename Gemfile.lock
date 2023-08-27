@@ -618,6 +618,7 @@ DEPENDENCIES
   bullet_train-super_scaffolding
   bullet_train-themes
   bullet_train-themes-light
+  bullet_train-themes-tailwind_css
   capybara (~> 3.39)
   capybara-email
   chronic

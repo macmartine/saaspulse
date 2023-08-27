@@ -1,6 +1,6 @@
 {
-  "name": "Untitled Application",
-  "description": "The Ruby on Rails SaaS-in-a-Box",
+  "name": "SaaS Pulse",
+  "description": "Your daily SaaS snapshot",
   "repository": "https://github.com/bullet-train-co/bullet_train",
   "logo": "https://bullettrain.co/heroku-logo.png",
   "keywords": ["ruby", "rails"],

@@ -104,6 +104,7 @@ gem "bullet_train-outgoing_webhooks"
 gem "bullet_train-incoming_webhooks"
 gem "bullet_train-themes"
 gem "bullet_train-themes-light"
+gem "bullet_train-themes-tailwind_css"
 gem "bullet_train-integrations"
 gem "bullet_train-integrations-stripe"
 
