@@ -22,7 +22,6 @@ namespace :stripe do
       end
     end
 
-
   end
 
   task ingest: :environment do
