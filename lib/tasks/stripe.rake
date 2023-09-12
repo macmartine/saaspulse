@@ -1,24 +1,53 @@
 
 namespace :stripe do
 
+  task report: :environment do
+
+    # TODO: Get only active accounts
+
+    Team.all.each do |team|
+      puts "Team"
+
+      all_stripe_accounts = team.integrations_stripe_installations
+      all_stripe_accounts.each do |stripe_account|
+        stripe = StripeReport.new(stripe_account.id)
+        stripe.output_report
+
+        team.users.each do |team_member|
+          puts team_member.email
+
+          # TODO: Only run on appropriate hour/timezone
+          DigestMailer.digest(stripe, team_member.email).deliver_now
+        end
+      end
+    end
+
+
+  end
+
   task ingest: :environment do
 
     # TODO: Get only active accounts
 
     Team.all.each do |team|
-      stripe = team.integrations_stripe_installations.first.oauth_stripe_account
-      ingest_account(stripe.uid)
+      all_stripe_accounts = team.integrations_stripe_installations
+      all_stripe_accounts.each do |stripe_account|
+        stripe = stripe_account.oauth_stripe_account
+        ingest_account(stripe.uid)
+      end
     end
 
   end
 
 end
 
-def ingest_account(stripe_account_id, starting_after = nil)
+def ingest_account(stripe_account_id)
 
   account_param = { stripe_account: stripe_account_id }
 
-  customers = Stripe::Customer.list({ starting_after: starting_after }, account_param)
+  customers = Stripe::Customer.list({}, account_param)
+
+  return if customers.blank?
 
   customers.auto_paging_each do |customer|
 
@@ -51,13 +80,12 @@ def ingest_account(stripe_account_id, starting_after = nil)
 
     end
 
-    ingest_account(stripe_account_id, starting_after)
-
   end
 
 end
 
 def unix_timestamp_to_date(timestamp)
+  return if timestamp.blank?
   DateTime.strptime(timestamp.to_s, '%s')
 end
 

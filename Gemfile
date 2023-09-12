@@ -113,6 +113,10 @@ gem "bullet_train-sortable"
 gem "bullet_train-scope_questions"
 gem "bullet_train-obfuscates_id"
 
+# Additional packages.
+gem "bullet_train-billing", git: 'https://github.com/bullet-train-pro/bullet_train-billing'
+gem "bullet_train-billing-stripe", git: 'https://github.com/bullet-train-pro/bullet_train-billing-stripe'
+
 gem "devise"
 gem "devise-two-factor"
 gem "rqrcode"
@@ -172,6 +176,9 @@ gem "active_hash"
 
 # A great debugger.
 gem "pry"
+gem "pry-nav"
+
+gem 'active_model_serializers', '~> 0.10.0'
 
 # YOUR GEMS
 # You can add any Ruby gems you need below. By keeping them separate from our gems above, you'll avoid the likelihood

@@ -1,3 +1,19 @@
+GIT
+  remote: https://github.com/bullet-train-pro/bullet_train-billing
+  revision: 94038ec36aee1eb6c24ef1644ae8a45a1cc60bb3
+  specs:
+    bullet_train-billing (1.0.10)
+      bullet_train
+      rails (>= 6.0)
+
+GIT
+  remote: https://github.com/bullet-train-pro/bullet_train-billing-stripe
+  revision: 5c742bd678400f651fbc8b700925205f79ead42c
+  specs:
+    bullet_train-billing-stripe (1.0.3)
+      bullet_train-billing
+      rails (>= 6.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -48,6 +64,11 @@ GEM
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
     active_hash (3.2.0)
       activesupport (>= 5.0.0)
+    active_model_serializers (0.10.13)
+      actionpack (>= 4.1, < 7.1)
+      activemodel (>= 4.1, < 7.1)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (7.0.7.2)
       activesupport (= 7.0.7.2)
       globalid (>= 0.3.6)
@@ -207,6 +228,8 @@ GEM
     capybara-email (3.0.2)
       capybara (>= 2.4, < 4.0)
       mail
+    case_transform (0.2)
+      activesupport
     charlock_holmes (0.7.7)
     chronic (0.10.2)
     chunky_png (1.4.0)
@@ -304,6 +327,7 @@ GEM
     jsbundling-rails (1.1.2)
       railties (>= 6.0.0)
     json (2.6.3)
+    jsonapi-renderer (0.2.2)
     jwt (2.7.1)
     knapsack_pro (5.6.0)
       rake
@@ -407,6 +431,8 @@ GEM
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    pry-nav (1.0.0)
+      pry (>= 0.9.10, < 0.15)
     pry-stack_explorer (0.6.1)
       binding_of_caller (~> 1.0)
       pry (~> 0.13)
@@ -604,10 +630,13 @@ PLATFORMS
 
 DEPENDENCIES
   active_hash
+  active_model_serializers (~> 0.10.0)
   aws-sdk-s3
   bootsnap
   bullet_train
   bullet_train-api
+  bullet_train-billing!
+  bullet_train-billing-stripe!
   bullet_train-incoming_webhooks
   bullet_train-integrations
   bullet_train-integrations-stripe
@@ -639,6 +668,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   postmark-rails
   pry
+  pry-nav
   puma (~> 6.0)
   rack-mini-profiler
   rails (~> 7.0.0)

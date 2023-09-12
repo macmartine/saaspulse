@@ -2,5 +2,5 @@
 
 <%= render 'account/shared/page' do |page| %>
   <% page.title t('.section') %>
-  <% page.body.render 'index', stripe_installations: @stripe_installations, hide_actions: @stripe_installations.present? %>
+  <% page.body.render 'index', stripe_installations: @stripe_installations %>
 <% end %>

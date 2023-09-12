@@ -2,7 +2,7 @@ class AddStripeSubsCusts < ActiveRecord::Migration[7.0]
 
   def change
     create_table :stripe_customers do |t|
-      t.integer :account_id
+      t.string :account_id
       t.string :customer_id
       t.string :email
       t.jsonb :subscriptions

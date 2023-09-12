@@ -1,0 +1,123 @@
+en:
+  billing/subscriptions: &subscriptions
+    label: &label Billing
+    breadcrumbs:
+      label: *label
+    navigation:
+      label: *label
+      icon: ti ti-credit-card fal fa-credit-card
+    buttons: &buttons
+      next: Next Step
+      new: Add New Subscription
+      create: Create Subscription
+      edit: Edit Subscription
+      update: Update Subscription
+      destroy: Remove Subscription
+      shorthand:
+        edit: Edit
+        destroy: Cancel
+      confirmations:
+        # TODO customize for your use-case.
+        destroy: Are you sure you want to remove %{subscription_name}? This will also remove it's associated data. This can't be undone.
+    fields: &fields
+      id:
+        heading: Subscription ID
+      team_id:
+        heading: Team ID
+      provider_subscription_type:
+        _: &provider_subscription_type Payment Provider
+        label: *provider_subscription_type
+        heading: *provider_subscription_type
+        options:
+          "Billing::External::Subscription": Externally Managed
+          # TODO We need a way for `bullet_train-billing-stripe` to define these.
+          "Billing::Stripe::Subscription": Stripe
+          # TODO We need a way for `bullet_train-billing-umbrella_subscriptions` to define these.
+          "Billing::Umbrella::Subscription": Umbrella
+      cycle_ends_at:
+        _: &cycle_ends_at Cycle Ends At
+        label: *cycle_ends_at
+        heading: *cycle_ends_at
+      status:
+        _: &status Status
+        label: *status
+        heading: *status
+        options:
+          initiated: Pending Checkout
+          trialing: Trialing
+          pending: Pending Verification
+          active: Active
+          overdue: Overdue
+          canceling: Canceling
+          canceled: Canceled
+      # 🚅 super scaffolding will insert new fields above this line.
+      created_at:
+        _: &created_at Added
+        label: *created_at
+        heading: *created_at
+      updated_at:
+        _: &updated_at Updated
+        label: *updated_at
+        heading: *updated_at
+    api:
+      collection_actions: "Collection Actions for Subscriptions"
+      index: "List Subscriptions"
+      create: "Add a New Subscription"
+      member_actions: "Actions for an Individual Subscription"
+      show: "Retrieve a Subscription"
+      update: "Update a Subscription"
+      destroy: "Delete a Subscription"
+      fields: *fields
+    index:
+      section: "%{teams_possessive} Subscriptions"
+      contexts:
+        team:
+          header: Subscriptions
+          description: Below are the details of your past and present subscriptions.
+      fields: *fields
+      buttons: *buttons
+    show:
+      section: "%{subscription_name}"
+      header: Subscription Details
+      description: Below are the details we have for %{subscription_name}.
+      manage_description: You'll also find options for updating these details or removing %{subscription_name} from %{team_name} entirely.
+      fields: *fields
+      buttons: *buttons
+    form: &form
+      buttons: *buttons
+      fields: *fields
+    new:
+      section: "New Subscription for %{team_name}"
+      header: New Subscription Details
+      description: Please provide the details of the new Subscription you'd like to add to %{team_name}.
+      pricing:
+        header: Pricing made simple
+        description: ""
+      form: *form
+      buttons: *buttons
+    edit:
+      section: "%{subscription_name}"
+      header: Edit Subscription Details
+      description: You can update the details or settings for %{subscription_name} below.
+      form: *form
+    notifications:
+      created: Subscription was successfully created.
+      updated: Subscription was successfully updated.
+      destroyed: Checkout was successfully canceled.
+    new_button:
+      start_trial: "%{days}-Day Free Trial"
+      select: "Select"
+    cell:
+      invalid_umbrella_subscription: This Umbrella Subscription is currently inactive because the covering team is not subscribed to a plan that supports Umbrella Subscriptions.
+  account:
+    billing:
+      subscriptions: *subscriptions
+  activerecord:
+    attributes:
+      billing/subscription:
+        provider_subscription_type: *provider_subscription_type
+        cycle_ends_at: *cycle_ends_at
+        status: *status
+        # 🚅 super scaffolding will insert new activerecord attributes above this line.
+        created_at: *created_at
+        updated_at: *updated_at

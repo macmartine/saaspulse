@@ -1,0 +1,149 @@
+class StripeReport
+
+  def initialize(stripe_account_id)
+    # @timezone = timezone
+    # @timezone = Team.first.time_zone
+    @stripe_account_id = stripe_account_id
+    @team = Integrations::StripeInstallation.find(stripe_account_id)
+  end
+
+  def run
+    @total_active_customers = total_active_customers.length
+  end
+
+  def output_report
+    puts "Total active customers: #{total_active_customers}"
+    puts ""
+    puts "Total trialing: #{total_in_trial}"
+    puts ""
+    puts "Trials converting today : #{obj_print trials_converting_today}"
+    puts ""
+    puts "Trials converting next 7 days : #{trials_converting_next_7_days}"
+    puts ""
+    puts "Trials converting after 7 days : #{obj_print trials_converting_after_7_days}"
+    puts ""
+    puts "Conversions last 24 hours: #{obj_print conversions_last_24_hrs}"
+    puts ""
+    puts "Canceled recently: #{canceled_recently}"
+    puts ""
+    puts "Past due: #{past_due}"
+    puts ""
+    puts "Paused: #{paused}"
+    puts ""
+    puts "Unpaid: #{unpaid}"
+    puts ""
+    puts "Incomplete: #{incomplete}"
+    puts ""
+    puts "MRR: #{mrr}"
+  end
+
+  def obj_print(obj)
+    puts ""
+    puts "Data: #{obj[:data]}"
+  end
+
+  def timestamps(start_days_from_now, end_days_from_now)
+
+    time_in_timezone = Time.now.in_time_zone(@timezone)
+    today = Time.now
+
+    start = today.advance(days: start_days_from_now)
+    start = start.change(hour: 2, min: 0, sec: 0)
+
+    end_time = today.advance(days: end_days_from_now)
+    end_time = end_time.change(hour: 23, min: 59, sec: 59)
+
+    [start, end_time]
+  end
+
+  def query(q, *args)
+    stripe_subscription_query.where(q, *args)
+  end
+
+  def stripe_subscription_query
+    StripeSubscription.includes(:stripe_customer).where(stripe_customers: { account_id: @stripe_account_id })
+  end
+
+  def generate_data(data)
+    r = data
+    # r = data.sort_by { |x| x.days_til_conversion }
+    # ser = ActiveModel::Serializer::CollectionSerializer.new(r, serializer: StripeSubscriptionSerializer)
+    # { data: ser.as_json, totalValue: r.sum(&:price_after_discount) }
+    # binding.pry
+    { data: r, totalValue: r.sum(&:price_after_discount) }
+  end
+
+  def total_active_customers
+    # Note: Sometimes a subscription is removed so we don't update status.
+    # So we set trial_end date to future so we don't get old subs
+    query( "(status = 'active' OR status = 'past_due') AND cancel_at IS NULL AND price_after_discount > 0").length
+  end
+
+  def total_in_trial
+    ts = timestamps(0, 0)
+    query( "status = 'trialing' AND cancel_at IS NULL AND trial_end >= ?", ts[0] ).length
+  end
+
+  def trials_converting_today
+    ts = timestamps(0, 1)
+    i = query( "status = 'trialing' AND cancel_at IS NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
+    generate_data(i)
+  end
+
+  def trials_converting_next_7_days
+    ts = timestamps(0, 6)
+    i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
+    generate_data(i)
+  end
+
+  def trials_converting_after_7_days
+    ts = timestamps(7, 10000)
+    i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
+    generate_data(i)
+  end
+
+  def conversions_last_24_hrs
+    ts = timestamps(-1, -1)
+    i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
+    generate_data(i)
+  end
+
+  def canceled_recently
+    # TODO: Is this right?
+    ts = timestamps(-4, -1)
+    i = query( " status = 'trialing' AND cancel_at IS NOT NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
+    generate_data(i)
+  end
+
+  def mrr
+    query( " (status = 'active' OR status = 'past_due') AND cancel_at IS NULL AND price_after_discount > 0")
+
+    # analyticsData['mrr'] = { data: r, totalValue: await sum(r) }
+    # console.log('MRR: ', analyticsData['mrr']['totalValue'] / 100)
+  end
+
+  # Bad payments
+  def past_due
+    i = stripe_subscription_query.includes(:stripe_customer).where( "status = 'past_due'")
+  
+    generate_data(i)
+  end
+
+  def unpaid
+    i = stripe_subscription_query.includes(:stripe_customer).where( "status = 'unpaid'")
+    generate_data(i)
+  end
+
+  def incomplete
+    i = stripe_subscription_query.includes(:stripe_customer).where( "status = 'incomplete'")
+    generate_data(i)
+  end
+
+  def paused
+    i = stripe_subscription_query.includes(:stripe_customer).where( "status = 'paused'")
+    generate_data(i)
+  end
+
+end
+
+
