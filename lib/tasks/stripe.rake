@@ -4,6 +4,7 @@ namespace :stripe do
   task report: :environment do
 
     # TODO: Get only active accounts
+    #
 
     Team.all.each do |team|
       puts "Team"
