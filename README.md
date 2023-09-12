@@ -5,6 +5,13 @@ DigestMailer.digest.deliver_now
 Update config/application.yml:
 BASE_URL: https://YOUR-SUBDOMAIN.ngrok.io
 
+Update ngrok url:
+
+- config/application.yml:
+- https://dashboard.stripe.com/test/settings/connect
+- https://dashboard.stripe.com/test/webhooks
+
+
 ## Getting Started
 
 1. You must have the following dependencies installed:
