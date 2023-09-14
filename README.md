@@ -1,9 +1,17 @@
+
+# Notes
+
+Get SaaS Pulse customer subscriptions: Billing::Subscription
+
+
 # SaaS Pulse
 
 DigestMailer.digest.deliver_now
 
 Update config/application.yml:
 BASE_URL: https://YOUR-SUBDOMAIN.ngrok.io
+
+Update Webhook secret in application.yml, get it from webhook page in stripe
 
 Update ngrok url:
 

@@ -6,15 +6,25 @@ namespace :stripe do
     # TODO: Get only active accounts
     #
 
-    Team.all.each do |team|
+    # Team.all.each do |team|
+    [Team.all.first].each do |team|
       puts "Team"
 
       all_stripe_accounts = team.integrations_stripe_installations
-      all_stripe_accounts.each do |stripe_account|
+      # all_stripe_accounts.each do |stripe_account|
+      [all_stripe_accounts.first].each do |stripe_account|
+
+        # Ingest
+        ingest_account(stripe_account.oauth_stripe_account.uid)
+
+        # Create report and send
+        # stripe = StripeReport.new(stripe_account.oauth_stripe_account.uid)
         stripe = StripeReport.new(stripe_account.id)
-        stripe.output_report
+        # stripe.output_report
+        stripe.run
 
         team.users.each do |team_member|
+        [team.users.first].each do |team_member|
           puts team_member.email
 
           # TODO: Only run on appropriate hour/timezone

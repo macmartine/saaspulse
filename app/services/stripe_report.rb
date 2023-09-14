@@ -3,12 +3,24 @@ class StripeReport
   def initialize(stripe_account_id)
     # @timezone = timezone
     # @timezone = Team.first.time_zone
-    @stripe_account_id = stripe_account_id
+    # @stripe_account_id = stripe_account_id
     @team = Integrations::StripeInstallation.find(stripe_account_id)
+    @stripe_account_id = @team.oauth_stripe_account.uid
   end
 
   def run
-    @total_active_customers = total_active_customers.length
+    @total_active_customers = total_active_customers
+    @total_in_trial = total_in_trial
+    @trials_converting_today = obj_print trials_converting_today
+    @trials_converting_next_7_days = trials_converting_next_7_days
+    @trials_converting_after_7_days = obj_print trials_converting_after_7_days
+    @conversions_last_24_hrs = obj_print conversions_last_24_hrs
+    @canceled_recently = canceled_recently 
+    @past_due = past_due  
+    @paused = paused
+    @unpaid = unpaid
+    @incomplete = incomplete
+    @mrr = mrr
   end
 
   def output_report
