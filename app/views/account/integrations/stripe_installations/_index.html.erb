@@ -1,0 +1,70 @@
+<% # Ejected from `bullet_train-integrations-stripe-1.3.17`. %>
+
+<% team = @team || @team %>
+<% context ||= team %>
+<% collection ||= :integrations_stripe_installations %>
+<% hide_actions ||= false %>
+<% hide_back ||= false %>
+<% hide_footer ||= false %>
+<% show_done ||= false %>
+
+<%= render 'account/shared/box' do |box| %>
+  <% box.title t(".contexts.#{context.class.name.underscore}.header") %>
+  <% box.description t(".contexts.#{context.class.name.underscore}.description") %>
+
+  <% box.body do %>
+    <% if stripe_installations.any? %>
+      <div class="space-y-0 border border-slate-200 shadow-sm rounded-md divide-y divide-slate-200">
+        <% stripe_installations.each do |stripe_installation| %>
+          <div class="flex py-1.5 px-3 items-center">
+            <div class="flex-1 min-w-0">
+              <%= stripe_installation.name %>
+            </div>
+            <div class="flex flex-0 min-w-0 space-x-2 items-center">
+              <% if can? :edit, stripe_installation %>
+                <%= link_to t('.buttons.shorthand.edit'), [:edit, :account, stripe_installation], class: 'button-secondary button-smaller' %>
+              <% end %>
+
+              <% if can? :destroy, stripe_installation %>
+                <%= link_to [:account, stripe_installation, return_to: request.path], method: :delete, data: { confirm: t('.buttons.confirmations.destroy_from_user', team_name: stripe_installation.team.label_string) }, class: 'inline-block text-slate-300 hover:text-slate-400 hover:no-underline text-lg' do %>
+                  <i class="ti ti-close"></i>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% box.actions do %>
+    <% unless hide_actions %>
+      <% if context == team %>
+        <% if can? :create, Integrations::StripeInstallation.new(team: team) %>
+          <span data-turbo="false">
+            <%= button_to user_stripe_connect_omniauth_authorize_path(team_id: team.id), class: "#{first_button_primary(:integrations_stripe_installation)} new" do %>
+              <%= t('.buttons.new') %>
+            <% end %>
+          </span>
+        <% end %>
+      <% end %>
+
+      <% unless hide_back %>
+        <%= link_to t('global.buttons.back'), [:account, context], class: "#{first_button_primary(:integrations_stripe_installation)} back" %>
+      <% end %>
+
+      <% if show_done %>
+        <%= link_to '/', class: "#{first_button_primary(:integrations_stripe_installation)}" do %>
+          All done!
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% unless hide_footer %>
+    <% box.footer do %>
+      <%= raw t(".contexts.team.authentication_note", authentication_url: url_for([:edit, :account, current_user])) %>
+    <% end %>
+  <% end %>
+
+<% end %>

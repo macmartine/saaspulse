@@ -1,9 +1,29 @@
 <%= render 'account/shared/page' do |p| %>
   <% p.content_for :title, t('.header', teams_possessive: possessive_string(@team.name)) %>
-
   <% p.content_for :body do %>
     <%# 🚅 super scaffolding will insert new children above this line. %>
-    
+
+    <p>
+    Your SaaS Pulse account is active.
+    </p>
+
+    <p>
+    SaaS Pulse daily reports are sent to your inbox daily at 7am in each user's timezone specified in their <%= link_to 'profile', edit_account_user_path(current_user.id) %>.
+    </p>
+
+    <p>
+    Add more <%= link_to 'Stripe accounts', account_team_integrations_stripe_installations_path(current_user.current_team.id) %>
+          
+    </p>
+
+    <p>
+    Add a <%= link_to 'new team', new_account_team_path %>
+    </p>
+
+    <p>
+    Invite <%= link_to 'more users', account_team_memberships_path(current_user.current_team.id) %>
+    </p>
+
     <%= render 'account/scaffolding/absolutely_abstract/creative_concepts/index', creative_concepts: @team.scaffolding_absolutely_abstract_creative_concepts, hide_back: true unless scaffolding_things_disabled? %>
   <% end %>
 <% end %>

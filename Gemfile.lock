@@ -658,6 +658,7 @@ DEPENDENCIES
   devise-two-factor
   factory_bot_rails
   foreman
+  hashie
   honeybadger
   jbuilder
   jsbundling-rails

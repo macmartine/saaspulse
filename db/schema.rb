@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_27_184153) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_18_085903) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -287,6 +287,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_27_184153) do
     t.index ["tangible_thing_id"], name: "index_tangible_things_assignments_on_tangible_thing_id"
   end
 
+  create_table "stripe_connect_webhooks", force: :cascade do |t|
+    t.jsonb "data"
+    t.datetime "processed_at", precision: nil
+    t.datetime "verified_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+  end
+
   create_table "stripe_customers", force: :cascade do |t|
     t.string "account_id"
     t.string "customer_id"
@@ -294,6 +302,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_27_184153) do
     t.jsonb "subscriptions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
   end
 
   create_table "stripe_subscriptions", force: :cascade do |t|
