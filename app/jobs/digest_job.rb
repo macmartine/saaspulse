@@ -1,6 +1,6 @@
 class DigestJob < ApplicationJob 
 
-  include Webhooks::Incoming::Base
+  include Aware::Webhooks::Incoming::Base
 
   # Automatically retry jobs that encountered a deadlock
   # retry_on ActiveRecord::Deadlocked
@@ -15,7 +15,7 @@ class DigestJob < ApplicationJob
     stripe_account = Integrations::StripeInstallation.find(stripe_account_id)
     team = Team.find(team_id)
 
-    ingest_account(stripe_account.oauth_stripe_account.uid)
+    # ingest_account(stripe_account.oauth_stripe_account.uid)
 
     stripe = StripeReport.new(stripe_account.id)
     # stripe.output_report
@@ -26,7 +26,7 @@ class DigestJob < ApplicationJob
 
       time_in_time_zone = Time.now.in_time_zone(team_member.time_zone)
 
-      next if time_in_time_zone.hour != SEND_AT_HOUR
+      # next if time_in_time_zone.hour != SEND_AT_HOUR
 
       # TODO: Only run on appropriate hour/timezone
       DigestMailer.digest(stripe, team.name, team_member.email).deliver_now
@@ -60,7 +60,7 @@ class DigestJob < ApplicationJob
 
       subscriptions.each do |sub|
         puts sub.id
-        update_subscription(db_customer.id, sub)
+        update_subscription(sub, db_customer.id)
       end
 
     end

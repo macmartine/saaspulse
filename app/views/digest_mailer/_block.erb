@@ -1,0 +1,37 @@
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody>
+    <tr>
+      <td align="" class="card-head" colspan="4" style="padding: 4px;">
+        <b class="card-heading" style="font-family:Arial, Helvetica, sans-serif; font-size:16px; line-height:22px; font-weight:500;color:#808080;">
+          <%= title %>
+        </b>
+      </td>
+    </tr>
+    <tr>
+      <td align="" style="padding: 4px;" colspan="4">
+        <b class="card-value chameleon-heading" style="font-family:Arial, Helvetica, sans-serif; font-size:32px; line-height:38px; font-weight:700;color:#065d8c;"> 
+          <%= value %>
+        </b>
+      </td>
+    </tr>
+    <tr>
+      <td align="" style="padding: 4px;" colspan="2">
+        <div class="change">
+          <%= subValue1 ||= '' %>
+          <span class="change-label">
+            <%= subLabel1 ||= '' %>
+          </span>
+        </div>
+      </td>
+      <td align="" style="padding: 4px;" colspan="2">
+        <div class="change">
+          <%= subValue2 ||= '' %>
+        </div>
+        <div class="change-label">
+          <%= subLabel2 ||= '' %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -9,11 +9,19 @@ module Aware::Webhooks::Incoming::Base
     db_customer.save
   end
 
-  def update_subscription(sub_arg)
+  # def update_subscription_explicit(sub_arg)
+  # end
+  def update_subscription(sub_arg, db_customer_id = nil)
 
-    sub = Hashie::Mash.new(sub_arg)
-    db_customer = StripeCustomer.find_or_create_by(customer_id: sub.customer)
-    db_subscription = StripeSubscription.find_or_create_by(stripe_customer_id: db_customer.id, subscription_id: sub.id)
+    if db_customer_id.present?
+      sub = sub_arg
+      db_customer = StripeCustomer.find(db_customer_id)
+      db_subscription = StripeSubscription.find_or_create_by(stripe_customer_id: db_customer.id, subscription_id: sub.id)
+    else
+      sub = Hashie::Mash.new(sub_arg)
+      db_customer = StripeCustomer.find_or_create_by(customer_id: sub.customer)
+      db_subscription = StripeSubscription.find_or_create_by(stripe_customer_id: db_customer.id, subscription_id: sub.id)
+    end
 
     # db_subscription = StripeSubscription.find_or_create_by(subscription_id: sub.id)
     db_subscription.discount  = sub.discount

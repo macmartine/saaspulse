@@ -12,8 +12,9 @@ class StripeReport
     @total_active_customers = total_active_customers
     @total_in_trial = total_in_trial
     @trials_converting_today = obj_print trials_converting_today
-    @trials_converting_next_7_days = trials_converting_next_7_days
-    @trials_converting_after_7_days = obj_print trials_converting_after_7_days
+    @trials_converting_after_today = trials_converting_after_today
+    # @trials_converting_next_7_days = trials_converting_next_7_days
+    # @trials_converting_after_7_days = obj_print trials_converting_after_7_days
     @conversions_last_24_hrs = obj_print conversions_last_24_hrs
     @canceled_recently = canceled_recently 
     @past_due = past_due  
@@ -30,7 +31,7 @@ class StripeReport
     puts ""
     puts "Trials converting today : #{obj_print trials_converting_today}"
     puts ""
-    puts "Trials converting next 7 days : #{trials_converting_next_7_days}"
+    # puts "Trials converting next 7 days : #{trials_converting_next_7_days}"
     puts ""
     puts "Trials converting after 7 days : #{obj_print trials_converting_after_7_days}"
     puts ""
@@ -77,8 +78,8 @@ class StripeReport
   end
 
   def generate_data(data)
-    r = data
-    # r = data.sort_by { |x| x.days_til_conversion }
+    # r = data
+    r = data.sort_by { |x| x.days_til_conversion }
     # ser = ActiveModel::Serializer::CollectionSerializer.new(r, serializer: StripeSubscriptionSerializer)
     # { data: ser.as_json, totalValue: r.sum(&:price_after_discount) }
     # binding.pry
@@ -97,22 +98,30 @@ class StripeReport
   end
 
   def trials_converting_today
-    ts = timestamps(0, 1)
-    i = query( "status = 'trialing' AND cancel_at IS NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
+    # ts = timestamps(0, 1)
+    # i = query( "status = 'trialing' AND cancel_at IS NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
+    i = query( "status = 'trialing' AND cancel_at IS NULL AND trial_end <= ?", Time.now.utc + 24.hours)
     generate_data(i)
   end
 
-  def trials_converting_next_7_days
-    ts = timestamps(0, 6)
-    i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
+  def trials_converting_after_today
+    # ts = timestamps(1, 1)
+    # i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end >= ?", ts[0])
+    i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end > ?", Time.now.utc + 24.hours)
     generate_data(i)
   end
 
-  def trials_converting_after_7_days
-    ts = timestamps(7, 10000)
-    i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
-    generate_data(i)
-  end
+  # def trials_converting_next_7_days
+  #   ts = timestamps(0, 6)
+  #   i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
+  #   generate_data(i)
+  # end
+  #
+  # def trials_converting_after_7_days
+  #   ts = timestamps(7, 10000)
+  #   i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
+  #   generate_data(i)
+  # end
 
   def conversions_last_24_hrs
     ts = timestamps(-1, -1)

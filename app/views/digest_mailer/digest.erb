@@ -533,9 +533,22 @@ ul {
           display: none !important;
         }
       }
+
+      .change {
+        color: #34a853;
+        letter-spacing: 0.5px;
+        font-weight: bold;
+        padding-bottom: 4px;
+      }
+
+      .change-label {
+        color: gray;
+        font-weight: normal;
+        font-size: 14px;
+      }
     </style>
   </head>
-  <body class="emailbody" style="margin: 0; padding:0;"><img src="https://pdk7s80bs6.execute-api.us-east-1.amazonaws.com/prod/excess-aws-track-email-open?encodedtrack=7f4045094498be02f81289f3c5cdeeccd8b67a27eyJkaXN0aW5jdF9pZCI6IDkzMTMzMzEwMiwgImVtYWlsX2RvbWFpbiI6ICJtZS5jb20iLCAiZW1haWxfc2VuZF90aW1lIjogMTY1MjU0MDc0NDM4MCwgImVtYWlsX3R5cGUiOiAid2Vla2x5X3Byb2dyZXNzIiwgImxlc3NvbnMiOiAyOCwgIm1pbnMiOiAxMTAsICJxdWVzdGlvbnMiOiAzNTQsICJ1aV9sYW5ndWFnZSI6ICJlbiIsICJ1c2VfbmV3X3dvcmRzIjogZmFsc2UsICJ1c2VfcXVlc3Rpb25zIjogZmFsc2UsICJ1c2VyX2lkIjogOTMxMzMzMTAyLCAid2Vla2x5X3hwIjogNTQyLCAid2Vla3Nfbm9fYWN0aXZpdHkiOiAwLCAid29yZHMiOiAwfQ==" style="display:none" />
+  <body class="emailbody" style="background-color: #f1f5f9; margin: 0; padding:0;">
 
     <div style="display:none;font-size:1px;color:#ffffff;line-height:1px;font-family:Arial, Helvetica, sans-serif;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">Your Daily SaaS Pulse</div>
 
@@ -567,101 +580,29 @@ ul {
                     <h2 class="chameleon-heading" style="text-align: center; Margin:0; margin:0; font-family:Arial, Helvetica, sans-serif; font-size:22px; line-height:28px; font-weight:400;color:#4b4b4b;"> <%= @team_name %>'s Daily Pulse </h2>
                   </td>
                 </tr>
-                <tr>
-                  <td align="center">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                      <tbody>
-                        <tr>
-                          <td style="padding-bottom: 40px;" valign="top">
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                              <tbody>
-                                <tr>
-                                  <td align="center" class="mp0x5" style="padding: 0 30px;">
-                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
-                                      <tbody>
-                                        <tr align="center">
-                                          <td style="padding-left: 11px; padding-right: 11px;">
-                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                              <tbody>
-                                                <tr>
-                                                  <td width="45.6667%">
-                                                    <table border="0" cellpadding="0" cellspacing="0" class="chameleon-line" style="border: 1px solid #bbdbff; border-radius: 8px; border-collapse: separate;" width="100%">
-                                                      <tbody>
-                                                        <tr>
-                                                          <td class="card-inner" style="padding: 19px 10px 13px;">
-                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                              <tbody>
-                                                                <tr>
-                                                                  <td align="center" class="card-head" colspan="2" style="padding: 4px;"> <b class="card-heading" style="font-family:Arial, Helvetica, sans-serif; font-size:13px; line-height:22px; font-weight:700;color:#A0A0A0;">
-Number of active users
-</b> </td>
-                                                                </tr>
-                                                                <tr>
-                                                                  <td align="center" style="padding: 4px;" colspan="2">
-																																		<b class="card-value chameleon-heading" style="font-family:Arial, Helvetica, sans-serif; font-size:28px; line-height:38px; font-weight:700;color:#4b4b4b;"> 
-																																			<%= @content.total_active_customers %>
-																																		</b>
-																																	</td>
-                                                                </tr>
-                                                              </tbody>
-                                                            </table>
-                                                          </td>
-                                                        </tr>
-                                                      </tbody>
-                                                    </table>
-                                                  </td>
-                                                  <td width="4%"> </td>
-                                                  <td width="45.6667%">
-                                                    <table border="0" cellpadding="0" cellspacing="0" class="chameleon-line" style="border: 1px solid #bbdbff; border-radius: 8px;" width="100%">
-                                                      <tbody>
-                                                        <tr>
-                                                          <td class="card-inner" style="padding: 19px 2px 13px;">
-                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                              <tbody>
-                                                                <tr>
-                                                                  <td align="center" class="card-head" colspan="2" style="padding: 4px;"> <b class="card-heading" style="font-family:Arial, Helvetica, sans-serif; font-size:13px; line-height:22px; font-weight:700;color:#A0A0A0;"> Number of active trials </b> </td>
-                                                                </tr>
-                                                                <tr>
-                                                                  <td align="center" style="padding: 4px;"  colspan="2">
-																																		<b class="card-value chameleon-heading" style="font-family:Arial, Helvetica, sans-serif; font-size:28px; line-height:38px; font-weight:700;color:#4b4b4b;"> 
-																																			<%= @content.total_in_trial %>
-																																		</b>
-																																	</td>
-                                                                </tr>
-                                                              </tbody>
-                                                            </table>
-                                                          </td>
-                                                        </tr>
-                                                      </tbody>
-                                                    </table>
-                                                  </td>
-                                                </tr>
-                                              </tbody>
-                                            </table>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
 
-                <%= render 'stat_with_list', title: "Trials ending today", list: @content.trials_converting_today %>
-                <%= render 'stat_with_list', title: "Trials ending next 7 days", list: @content.trials_converting_next_7_days %>
-                <%= render 'stat_with_list', title: "Trials ending after 7 days", list: @content.trials_converting_after_7_days %>
+                <%- block_mrr = render 'block', title: "MRR", value: "$3,495", subValue1: '+$543.12', subLabel1: 'last 24 hrs' %>
+                <%- block_active_users = render 'block', title: "Active subscribers", value: @content.total_active_customers, subValue1: '+4', subLabel1: 'last 24 hrs' %>
+                <%= render partial: 'block_row', locals: { block1: block_mrr, block2: block_active_users  } %>
+
+                <%- block_active_trials = render 'block', title: "Active trials", value: @content.total_in_trial, subValue1: '+4', subLabel1: 'last 24 hrs', subValue2: '+$450.56', subLabel2: 'Est. value' %>
+                <%- block_trials_converting = render 'block', title: "Trials converting today", value: @content.trials_converting_today.size, subValue1: '+$120.23', subLabel1: 'Est. value' %>
+                <%= render partial: 'block_row', locals: { block1: block_active_trials, block2: block_trials_converting  } %>
+
+                <%- block_canceling = render 'block', title: "Accounts canceling", value: @content.total_in_trial, subValue1: '-$20.23', subLabel1: 'Est. value' %>
+                <%- block_failing = render 'block', title: "Accounts overdue", value: @content.past_due.size, subValue1: '-$120.23', subLabel1: 'Est. value' %>
+                <%= render partial: 'block_row', locals: { block1: block_canceling, block2: block_failing  } %>
+
+                <%= render 'stat_with_list', title: "Trials ending next 24 hrs", list: @content.trials_converting_today %>
+                <%= render 'stat_with_list', title: "Trials ending after 24 hrs", list: @content.trials_converting_after_today %>
+                <%# <%= render 'stat_with_list', title: "Trials ending next 7 days", list: @content.trials_converting_next_7_days %>
+                <%# <%= render 'stat_with_list', title: "Trials ending after 7 days", list: @content.trials_converting_after_7_days %>
                 <%= render 'stat_with_list', title: "Trials converted last 24 hours", list: @content.conversions_last_24_hrs %>
                 <%= render 'stat_with_list', title: "Trials canceled last 24 hours", list: @content.canceled_recently %>
                 <%= render 'stat_with_list', title: "Past due", list: @content.past_due %>
-                <%= render 'stat_with_list', title: "Paused", list: @content.paused %>
-                <%= render 'stat_with_list', title: "Unpaid", list: @content.unpaid %>
-                <%= render 'stat_with_list', title: "Incomplete", list: @content.incomplete %>
+                <%# <%= render 'stat_with_list', title: "Paused", list: @content.paused %>
+                <%# <%= render 'stat_with_list', title: "Unpaid", list: @content.unpaid %>
+                <%# <%= render 'stat_with_list', title: "Incomplete", list: @content.incomplete %>
 
               </tbody>
             </table> <!-- / report -->

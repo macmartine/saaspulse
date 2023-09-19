@@ -12,6 +12,12 @@
     <a href="https://dashboard.stripe.com/customers/<%= item.stripe_customer_id %>">
       <%= item.stripe_customer.email %>
     </a>
+    <div>
+      <%= item.plan['id'] %>
+    </div>
+    <div>
+      <%= item.discount.present? ? item.discount.dig('coupon', 'name') : '' %>
+    </div>
   </td>
   <td width="75px" style="font-size: 12px; color: #999">
     <% if(item.days_til_conversion) %>

@@ -1,6 +1,7 @@
 # Bullet Train theme configuration.
 
 # The application's main color scheme.
+# BulletTrain::Themes::Light.color = :slate
 BulletTrain::Themes::Light.color = :sky
 
 # The orientation of the navbar.
