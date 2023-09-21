@@ -3,6 +3,8 @@ namespace :stripe do
 
   task report: :environment do
 
+    require './app/jobs/digest_job'
+
     # TODO: Get only active accounts
 
     Team.all.each do |team|
