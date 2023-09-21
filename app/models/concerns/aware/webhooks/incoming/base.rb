@@ -25,6 +25,7 @@ module Aware::Webhooks::Incoming::Base
 
     # db_subscription = StripeSubscription.find_or_create_by(subscription_id: sub.id)
     db_subscription.discount  = sub.discount
+    db_subscription.cancel_at  = unix_timestamp_to_date(sub.cancel_at)
     db_subscription.plan  = sub.plan
     db_subscription.quantity  = sub.quantity
     db_subscription.status  = sub.status

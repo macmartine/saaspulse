@@ -581,19 +581,19 @@ ul {
                   </td>
                 </tr>
 
-                <%- block_mrr = render 'block', title: "MRR", value: "$3,495", subValue1: '+$543.12', subLabel1: 'last 24 hrs' %>
-                <%- block_active_users = render 'block', title: "Active subscribers", value: @content.total_active_customers, subValue1: '+4', subLabel1: 'last 24 hrs' %>
+                <%- block_mrr = render 'block', title: "MRR", value: number_to_currency(@content.mrr), subValue1: @content.new_mrr, subLabel1: 'last 24 hrs' %>
+                <%- block_active_users = render 'block', title: "Active subscribers", value: @content.total_active_customers, subValue1: @content.new_active_customers, subLabel1: 'last 24 hrs' %>
                 <%= render partial: 'block_row', locals: { block1: block_mrr, block2: block_active_users  } %>
 
-                <%- block_active_trials = render 'block', title: "Active trials", value: @content.total_in_trial, subValue1: '+4', subLabel1: 'last 24 hrs', subValue2: '+$450.56', subLabel2: 'Est. value' %>
-                <%- block_trials_converting = render 'block', title: "Trials converting today", value: @content.trials_converting_today.size, subValue1: '+$120.23', subLabel1: 'Est. value' %>
-                <%= render partial: 'block_row', locals: { block1: block_active_trials, block2: block_trials_converting  } %>
+                <%- block_active_trials = render 'block', title: "Active trials", value: @content.total_in_trial, subValue1: @content.new_in_trial, subLabel1: 'last 24 hrs', subValue2: '+$450.56', subLabel2: 'Est. value' %>
+                <%- block_trials_converting = render 'block', title: "Trials converting today", value: @content.trials_converting_today[:data].size, subValue1: number_to_currency(@content.trials_converting_today[:totalValue] / 100), subLabel1: 'Est. value' %>
+                <%= render partial: 'block_row', locals: { block1: block_active_trials, block2: block_trials_converting } %>
 
-                <%- block_canceling = render 'block', title: "Accounts canceling", value: @content.total_in_trial, subValue1: '-$20.23', subLabel1: 'Est. value' %>
-                <%- block_failing = render 'block', title: "Accounts overdue", value: @content.past_due.size, subValue1: '-$120.23', subLabel1: 'Est. value' %>
+                <%- block_canceling = render 'block', title: "Accounts canceling", value: @content.canceled_recently[:data].size, subValue1: number_to_currency(@content.canceled_recently[:totalValue] / 100), subLabel1: 'Est. value' %>
+                <%- block_failing = render 'block', title: "Accounts overdue", value: @content.past_due[:data].size, subValue1: number_to_currency(@content.past_due[:totalValue] / 100), subLabel1: 'Est. value' %>
                 <%= render partial: 'block_row', locals: { block1: block_canceling, block2: block_failing  } %>
 
-                <%= render 'stat_with_list', title: "Trials ending next 24 hrs", list: @content.trials_converting_today %>
+                <%= render 'stat_with_list', anchor: 'trials_ending_next_24_hrs', title: "Trials ending next 24 hrs", list: @content.trials_converting_today %>
                 <%= render 'stat_with_list', title: "Trials ending after 24 hrs", list: @content.trials_converting_after_today %>
                 <%# <%= render 'stat_with_list', title: "Trials ending next 7 days", list: @content.trials_converting_next_7_days %>
                 <%# <%= render 'stat_with_list', title: "Trials ending after 7 days", list: @content.trials_converting_after_7_days %>

@@ -18,6 +18,7 @@ class DigestJob < ApplicationJob
     # ingest_account(stripe_account.oauth_stripe_account.uid)
 
     stripe = StripeReport.new(stripe_account.id)
+    # stripe.output_users
     # stripe.output_report
     stripe.run
 
@@ -29,6 +30,7 @@ class DigestJob < ApplicationJob
       # next if time_in_time_zone.hour != SEND_AT_HOUR
 
       # TODO: Only run on appropriate hour/timezone
+      puts "Email: #{team_member.email}"
       DigestMailer.digest(stripe, team.name, team_member.email).deliver_now
     end
   end

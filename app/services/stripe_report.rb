@@ -10,6 +10,7 @@ class StripeReport
 
   def run
     @total_active_customers = total_active_customers
+    @new_active_customers = new_active_customers
     @total_in_trial = total_in_trial
     @trials_converting_today = obj_print trials_converting_today
     @trials_converting_after_today = trials_converting_after_today
@@ -22,6 +23,16 @@ class StripeReport
     @unpaid = unpaid
     @incomplete = incomplete
     @mrr = mrr
+    @new_mrr = new_mrr
+  end
+
+  def output_users
+    str = ""
+    active_customers.each do |a|
+      str += "#{a.stripe_customer.email}, #{a.status}, #{a.stripe_customer.customer_id}, #{a.subscription_id}, #{a.price_after_discount/ 100}\r\n"
+    end
+
+    File.write("active_subscribers.csv", str)
   end
 
   def output_report
@@ -33,8 +44,8 @@ class StripeReport
     puts ""
     # puts "Trials converting next 7 days : #{trials_converting_next_7_days}"
     puts ""
-    puts "Trials converting after 7 days : #{obj_print trials_converting_after_7_days}"
-    puts ""
+    # puts "Trials converting after 7 days : #{obj_print trials_converting_after_7_days}"
+    # puts ""
     puts "Conversions last 24 hours: #{obj_print conversions_last_24_hrs}"
     puts ""
     puts "Canceled recently: #{canceled_recently}"
@@ -86,10 +97,22 @@ class StripeReport
     { data: r, totalValue: r.sum(&:price_after_discount) }
   end
 
+  def active_customers
+    # Note: Sometimes a subscription is removed so we don't update status.
+    # So we set trial_end date to future so we don't get old subs
+    query( "(status = 'active' OR status = 'past_due') AND cancel_at IS NULL AND price_after_discount > 0")
+  end
+
   def total_active_customers
     # Note: Sometimes a subscription is removed so we don't update status.
     # So we set trial_end date to future so we don't get old subs
-    query( "(status = 'active' OR status = 'past_due') AND cancel_at IS NULL AND price_after_discount > 0").length
+    active_customers.length
+  end
+
+  def new_active_customers
+    # Note: Sometimes a subscription is removed so we don't update status.
+    # So we set trial_end date to future so we don't get old subs
+    query( "(status = 'active' OR status = 'past_due') AND cancel_at IS NULL AND price_after_discount > 0 AND trial_end > ?", t_24_hours_ago).length
   end
 
   def total_in_trial
@@ -97,17 +120,29 @@ class StripeReport
     query( "status = 'trialing' AND cancel_at IS NULL AND trial_end >= ?", ts[0] ).length
   end
 
+  def t_24_hours_ago
+    Time.now.utc - 24.hours
+  end
+
+  def next_24_hours
+    Time.now.utc + 24.hours
+  end
+
+  def new_in_trial
+    query( "status = 'trialing' AND cancel_at IS NULL AND trial_start > ?", t_24_hours_ago ).length
+  end
+
   def trials_converting_today
     # ts = timestamps(0, 1)
     # i = query( "status = 'trialing' AND cancel_at IS NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
-    i = query( "status = 'trialing' AND cancel_at IS NULL AND trial_end <= ?", Time.now.utc + 24.hours)
+    i = query( "status = 'trialing' AND cancel_at IS NULL AND trial_end <= ?", next_24_hours )
     generate_data(i)
   end
 
   def trials_converting_after_today
     # ts = timestamps(1, 1)
     # i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end >= ?", ts[0])
-    i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end > ?", Time.now.utc + 24.hours)
+    i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end > ?", next_24_hours)
     generate_data(i)
   end
 
@@ -130,17 +165,19 @@ class StripeReport
   end
 
   def canceled_recently
-    # TODO: Is this right?
-    ts = timestamps(-4, -1)
-    i = query( " status = 'trialing' AND cancel_at IS NOT NULL AND trial_end >= ? AND trial_end <= ?", ts[0], ts[1])
+    # i = query( " status = 'trialing' AND cancel_at IS NOT NULL AND cancel_at > ?", Time.now.utc)
+    i = query( " status = 'active' AND cancel_at IS NOT NULL AND cancel_at > ?", Time.now.utc)
     generate_data(i)
   end
 
   def mrr
-    query( " (status = 'active' OR status = 'past_due') AND cancel_at IS NULL AND price_after_discount > 0")
+    a = query( " (status = 'active' OR status = 'past_due') AND cancel_at IS NULL AND price_after_discount > 0")
+    a.sum { |i| i.price_after_discount } / 100.0
+  end
 
-    # analyticsData['mrr'] = { data: r, totalValue: await sum(r) }
-    # console.log('MRR: ', analyticsData['mrr']['totalValue'] / 100)
+  def new_mrr
+    a = query( " (status = 'active' OR status = 'past_due') AND cancel_at IS NULL AND price_after_discount > 0 AND trial_end > ?", t_24_hours_ago)
+    a.sum { |i| i.price_after_discount } / 100.0
   end
 
   # Bad payments
