@@ -10,7 +10,7 @@ namespace :stripe do
 
       all_stripe_accounts = team.integrations_stripe_installations
       all_stripe_accounts.each do |stripe_account|
-        DigestJob.perform_later(stripe_account.id, team.id)
+        ::DigestJob.perform_later(stripe_account.id, team.id)
       end
     end
 
