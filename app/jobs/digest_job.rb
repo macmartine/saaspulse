@@ -15,7 +15,7 @@ class DigestJob < ApplicationJob
     stripe_account = Integrations::StripeInstallation.find(stripe_account_id)
     team = Team.find(team_id)
 
-    # ingest_account(stripe_account.oauth_stripe_account.uid)
+    ingest_account(stripe_account.oauth_stripe_account.uid)
 
     stripe = StripeReport.new(stripe_account.id)
     # stripe.output_users
