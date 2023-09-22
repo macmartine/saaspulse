@@ -1,29 +1,42 @@
 
 <tr style="color: #666">
-  <td align="right" width="65px" style="padding: 6px 4px">
-    <span style="font-size: 14px; background: #fdfdbd; border-radius: 10px; padding: 4px 6px; font-weight: 400; color: #a09900">
-      <%= number_to_currency(item.price_after_discount / 100) %>
-      <a href='#trials_ending_next_24_hrs'>Go</a>
-    </span>
-  </td>
-  <td style="font-size: 14px; padding: 6px 0">
-    <a href="mailto:<%= item.stripe_customer.email %>" class="mobile-hide">
-      📧<span> </span>
-    </a>
-    <a href="https://dashboard.stripe.com/customers/<%= item.stripe_customer_id %>">
+
+  <td style="width: 50%; font-size: 14px; padding: 0">
+    <a href="mailto:<%= item.stripe_customer.email %>" class="mobile-hide" style="padding: 0">
       <%= item.stripe_customer.email %>
     </a>
-    <div>
-      <%= item.plan['id'] %>
-    </div>
-    <div>
-      <%= item.discount.present? ? item.discount.dig('coupon', 'name') : '' %>
-    </div>
   </td>
-  <td width="75px" style="font-size: 12px; color: #999">
-    <% if(item.days_til_conversion) %>
-      In <%= item.days_til_conversion %> days
-    <% end %>
+
+  <td style="width: 50%; text-align: right">
+    <span style="color: #a6a6a6; font-size: 13px">
+      <div class="change <%= change_class(item.price_after_discount / 100) %>">
+        <%= currency_formatter(item.price_after_discount / 100).html_safe %>
+      </div>
+    </span>
+    <%# <a href="https://dashboard.stripe.com/customers/<%= item.stripe_customer_id >" style="vertical-align: middle"><%= stripe_icon.html_safe %></a>
+  </td>
+</tr>
+
+<tr style="color: #666">
+
+  <td colspan="2" style="padding-bottom: 8px;" >
+
+    <table width="100%">
+      <tr>
+        <td style="width: 75px; font-size: 12px; color: #a6a6a6; padding: 0">
+          <span style="font-size: 12px; color: #a6a6a6; padding: 0">
+            <% if(item.days_til_conversion) %>
+              in <%= item.days_til_conversion %> days
+            <% end %>
+          </span>
+        </td>
+        <td style="font-size: 12px; color: #a6a6a6; padding: 0">
+          <%= coupon_string(item.discount) %>
+          <%#   <%= item.plan['id'] %>
+        </td>
+      </tr>
+    </table>
+
   </td>
 </tr>
 

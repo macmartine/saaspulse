@@ -13,7 +13,8 @@ class StripeReport
     @new_active_customers = new_active_customers
     @total_in_trial = total_in_trial
     @trials_converting_today = obj_print trials_converting_today
-    @trials_converting_after_today = trials_converting_after_today
+    # @trials_converting_after_today = trials_converting_after_today
+    @trials_converting = trials_converting
     # @trials_converting_next_7_days = trials_converting_next_7_days
     # @trials_converting_after_7_days = obj_print trials_converting_after_7_days
     @conversions_last_24_hrs = obj_print conversions_last_24_hrs
@@ -139,10 +140,8 @@ class StripeReport
     generate_data(i)
   end
 
-  def trials_converting_after_today
-    # ts = timestamps(1, 1)
-    # i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end >= ?", ts[0])
-    i = query( " status = 'trialing' AND cancel_at IS NULL AND trial_end > ?", next_24_hours)
+  def trials_converting
+    i = query( " status = 'trialing' AND cancel_at IS NULL")
     generate_data(i)
   end
 
