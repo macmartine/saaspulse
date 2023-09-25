@@ -10,9 +10,9 @@
     </tr>
     <tr style="">
       <td align="" style="padding: 4px;" colspan="4">
-        <span class="card-value chameleon-heading" style="font-family:Helvetica, sans-serif; font-size:36px; line-height:32px; font-weight:100;color:#065d8c;"><%= value %></span>
-        <span class="change <%= change_class(subValue1 ||= '') %>">
-          <%= subValue1.html_safe ||= '' %>
+        <span class="chameleon-heading" style="padding-right: 4px; font-family:Helvetica, sans-serif; font-size:36px; line-height:32px; font-weight:100;color:#065d8c;"><%= value %></span>
+        <span class="change">
+          <%= (subValue1 ||= '').html_safe %>
         </span>
       </td>
     </tr>

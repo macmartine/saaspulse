@@ -326,9 +326,6 @@ ul {
           /* make line break simultaneously */
           line-height: 18px !important;
         }
-        .card-value {
-          font-size: 25px !important;
-        }
         .board,
         .board__body,
         .board__row,
@@ -553,6 +550,9 @@ ul {
       .green {
         color: green;
       }
+      .yellow {
+        color: #c3c325;
+      }
     </style>
   </head>
   <body class="emailbody" >
@@ -588,7 +588,7 @@ ul {
               <tbody>
                 <tr>
                   <td align="center" class="mobile-pb20 mobile-pt30" style="padding: 10px 30px 40px;">
-                    <h2 class="chameleon-heading" style="text-align: center; Margin:0; margin:0; font-family:Arial, Helvetica, sans-serif; font-size:22px; line-height:28px; font-weight:400;color:#4b4b4b;"> <%= @team_name %>'s Daily Pulse </h2>
+                    <h2 class="chameleon-heading" style="text-align: center; Margin:0; margin:0; font-family:Arial, Helvetica, sans-serif; font-size:22px; line-height:28px; font-weight:400;color:#4b4b4b;"> Rad Co's Daily Pulse </h2>
                   </td>
                 </tr>
 
@@ -596,8 +596,8 @@ ul {
                 <%- block_active_users = render 'block', title: "Active subscribers", value: @content.total_active_customers, subValue2: "+#{@content.new_active_customers}", subLabel2: 'since yesterday' %>
                 <%= render partial: 'block_row', locals: { block1: block_mrr, block2: block_active_users } %>
 
-                <%- block_active_trials = render 'block', title: "Active trials", value: @content.total_in_trial, subValue2: "+#{@content.new_in_trial}", subLabel2: 'since yesterday', subValue1: currency_formatter('234'), subLabel1: '' %>
-                <%- block_trials_converting = render 'block', title: "Trials converting today", value: @content.trials_converting_today[:data].size, subValue1: currency_formatter(@content.trials_converting_today[:totalValue] / 100), subLabel1: '' %>
+                <%- block_active_trials = render 'block', title: "Active trials", value: @content.total_in_trial, subValue2: "+#{@content.new_in_trial}", subLabel2: 'since yesterday', subValue1: currency_formatter('234'), subLabel1: '', isPotential: true %>
+                <%- block_trials_converting = render 'block', title: "Trials converting today", value: @content.trials_converting_today[:data].size, subValue1: currency_formatter(@content.trials_converting_today[:totalValue] / 100), subLabel1: '', isPotential: true %>
                 <%= render partial: 'block_row', locals: { block1: block_active_trials, block2: block_trials_converting } %>
 
                 <%- block_canceling = render 'block', title: "Accounts canceling", value: @content.canceled_recently[:data].size, subValue1: currency_formatter((@content.canceled_recently[:totalValue] / 100) * -1), subLabel1: '' %>
