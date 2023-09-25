@@ -19,11 +19,11 @@ module ApplicationHelper
   end
 
   def up
-    "<img src='https://app.saaspulse.io/assets/logo/arrow-up-right.png' />"
+    "<img src='https://app.saaspulse.io/assets/arrow-up-right.png' />"
   end
 
   def down
-    "<img src='https://app.saaspulse.io/assets/logo/arrow-down-right.png' />"
+    "<img src='https://app.saaspulse.io/assets/arrow-down-right.png' />"
   end
 
   # def email_icon
