@@ -596,7 +596,7 @@ ul {
                 <%- block_active_users = render 'block', title: "Active subscribers", value: @content.total_active_customers, subValue2: "+#{@content.new_active_customers}", subLabel2: 'since yesterday' %>
                 <%= render partial: 'block_row', locals: { block1: block_mrr, block2: block_active_users } %>
 
-                <%- block_active_trials = render 'block', title: "Active trials", value: @content.total_in_trial, subValue2: "+#{@content.new_in_trial}", subLabel2: 'since yesterday', subValue1: currency_formatter('234'), subLabel1: '', isPotential: true %>
+                <%- block_active_trials = render 'block', title: "Active trials", value: @content.total_in_trial, subValue2: "+#{@content.new_in_trial}", subLabel2: 'since yesterday', subValue1: currency_formatter('234', true), subLabel1: '', isPotential: true %>
                 <%- block_trials_converting = render 'block', title: "Trials converting today", value: @content.trials_converting_today[:data].size, subValue1: currency_formatter(@content.trials_converting_today[:totalValue] / 100), subLabel1: '', isPotential: true %>
                 <%= render partial: 'block_row', locals: { block1: block_active_trials, block2: block_trials_converting } %>
 
