@@ -5,10 +5,14 @@ module ApplicationHelper
     :light
   end
 
-  def currency_formatter(value, is_potential = false)
+  def currency_formatter(value, is_potential = false, is_positive = true)
 
     if is_potential
-      return "#{up_yellow}#{number_to_currency(value.to_i, precision: 0).gsub('-', '')}"
+      if is_positive
+        return "#{up_yellow}#{number_to_currency(value.to_i, precision: 0).gsub('-', '')}"
+      else
+        return "#{down_yellow}#{number_to_currency(value.to_i, precision: 0).gsub('-', '')}"
+      end
     end
     op = value.to_i >= 0 ? up : down
     puts "OP: #{op}"
@@ -31,6 +35,10 @@ module ApplicationHelper
 
   def up_yellow
     "<img src='https://app.saaspulse.io/images/arrow-up-right-yellow.png' style='vertical-align: middle; margin-right: 2px'/>"
+  end
+
+  def down_yellow
+    "<img src='https://app.saaspulse.io/images/arrow-down-right-yellow.png' style='vertical-align: middle; margin-right: 2px'/>"
   end
 
   def stripe_icon

@@ -548,7 +548,7 @@ ul {
         color: red;
       }
       .green {
-        color: green;
+        color: #6fb06f;
       }
       .yellow {
         color: #c3c325;
@@ -600,17 +600,15 @@ ul {
                 <%- block_trials_converting = render 'block', title: "Trials converting today", value: @content.trials_converting_today[:data].size, subValue1: currency_formatter(@content.trials_converting_today[:totalValue] / 100, true), subLabel1: '', isPotential: true %>
                 <%= render partial: 'block_row', locals: { block1: block_active_trials, block2: block_trials_converting } %>
 
-                <%- block_canceling = render 'block', title: "Accounts canceling", value: @content.canceled_recently[:data].size, subValue1: currency_formatter((@content.canceled_recently[:totalValue] / 100) * -1), subLabel1: '' %>
+                <%- block_canceling = render 'block', title: "Accounts canceling", value: @content.accounts_canceling[:data].size, subValue1: currency_formatter((@content.accounts_canceling[:totalValue] / 100) * -1), subLabel1: '' %>
                 <%- block_failing = render 'block', title: "Accounts overdue", value: @content.past_due[:data].size, subValue1: currency_formatter((@content.past_due[:totalValue] / 100) * -1), subLabel1: '' %>
                 <%= render partial: 'block_row', locals: { block1: block_canceling, block2: block_failing } %>
 
-                <%= render 'stat_with_list', title: "Trials", list: @content.trials_converting %>
-                <%# <%= render 'stat_with_list', title: "Trials ending today", list: @content.trials_converting_after_today %>
-                <%# <%= render 'stat_with_list', title: "Trials today", list: @content.trials_converting_next_7_days %>
-                <%# <%= render 'stat_with_list', title: "Trials today", list: @content.trials_converting_after_7_days %>
-                <%= render 'stat_with_list', title: "Trials converted last 24 hours", list: @content.conversions_last_24_hrs %>
-                <%= render 'stat_with_list', title: "Trials canceled last 24 hours", list: @content.canceled_recently %>
-                <%= render 'stat_with_list', title: "Past due", list: @content.past_due %>
+                <%= render 'stat_with_list', title: "Trials", list: @content.trials_converting, isPotential: true %>
+                <%= render 'stat_with_list', title: "Trials converted last 24 hours", list: @content.conversions_last_24_hrs, hideConversionDate: true %>
+                <%= render 'stat_with_list', title: "Accounts canceling", list: @content.accounts_canceling, hideConversionDate: true, isPotential: true, isPositive: false %>
+                <%= render 'stat_with_list', title: "Trials canceling", list: @content.trials_canceling, hideConversionDate: true, isPotential: true, isPositive: false %>
+                <%= render 'stat_with_list', title: "Past due", list: @content.past_due, hideConversionDate: true, isPotential: true, isPositive: false %>
                 <%# <%= render 'stat_with_list', title: "Paused", list: @content.paused %>
                 <%# <%= render 'stat_with_list', title: "Unpaid", list: @content.unpaid %>
                 <%# <%= render 'stat_with_list', title: "Incomplete", list: @content.incomplete %>

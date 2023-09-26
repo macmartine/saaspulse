@@ -4,16 +4,24 @@
   <td style="width: 100%; font-size: 14px; padding: 0">
     <a href="mailto:<%= item.stripe_customer.email %>" style="padding: 0"><%= item.stripe_customer.email %></a>
     <span style="font-size: 12px; color: #a6a6a6; padding: 0">
-      <% if(item.days_til_conversion) %>
-        in <%= item.days_til_conversion %> days
+      <% if(!hideConversionDate) %>
+        <% if(item.days_til_conversion) %>
+          <% if(item.days_til_conversion == 0) %>
+            today
+          <% elsif(item.days_til_conversion == 1) %>
+            tomorrow
+          <% else %>
+            in <%= item.days_til_conversion %> days
+          <% end %>
+        <% end %>
       <% end %>
     </span>
   </td>
 
   <td style="width: 80px; text-align: right">
     <span style="color: #a6a6a6; font-size: 13px">
-      <div class="change <%= change_class(item.price_after_discount / 100) %>">
-        <%= currency_formatter(item.price_after_discount / 100).html_safe %>
+      <div class="change <%= change_class(item.price_after_discount / 100, isPotential ||= false) %>">
+        <%= currency_formatter(item.price_after_discount / 100, isPotential ||= false).html_safe %>
       </div>
     </span>
   </td>
@@ -22,7 +30,7 @@
 <tr style="color: #666">
 
   <td colspan="2" style="font-size: 12px; color: #a6a6a6; padding: 0 0 8px 0" >
-    <a href="https://dashboard.stripe.com/customers/<%= item.stripe_customer_id %>" style="vertical-align: middle"><%= stripe_icon.html_safe %></a>
+    <a href="https://dashboard.stripe.com/customers/<%= item.stripe_customer.customer_id %>" style="vertical-align: middle"><%= stripe_icon.html_safe %></a>
     <%= coupon_string(item.discount) %>
     <%#   <%= item.plan['id'] %>
   </td>

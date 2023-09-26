@@ -18,7 +18,8 @@ class StripeReport
     # @trials_converting_next_7_days = trials_converting_next_7_days
     # @trials_converting_after_7_days = obj_print trials_converting_after_7_days
     @conversions_last_24_hrs = obj_print conversions_last_24_hrs
-    @canceled_recently = canceled_recently 
+    @trials_canceling = trials_canceling 
+    @accounts_canceling = accounts_canceling 
     @past_due = past_due  
     @paused = paused
     @unpaid = unpaid
@@ -49,7 +50,7 @@ class StripeReport
     # puts ""
     puts "Conversions last 24 hours: #{obj_print conversions_last_24_hrs}"
     puts ""
-    puts "Canceled recently: #{canceled_recently}"
+    puts "Accounts canceling: #{accounts_canceling}"
     puts ""
     puts "Past due: #{past_due}"
     puts ""
@@ -163,7 +164,13 @@ class StripeReport
     generate_data(i)
   end
 
-  def canceled_recently
+  def trials_canceling
+    i = query( " status = 'trialing' AND cancel_at IS NOT NULL AND cancel_at > ?", Time.now.utc)
+    # i = query( " status = 'active' AND cancel_at IS NOT NULL AND cancel_at > ?", Time.now.utc)
+    generate_data(i)
+  end
+
+  def accounts_canceling
     # i = query( " status = 'trialing' AND cancel_at IS NOT NULL AND cancel_at > ?", Time.now.utc)
     i = query( " status = 'active' AND cancel_at IS NOT NULL AND cancel_at > ?", Time.now.utc)
     generate_data(i)
