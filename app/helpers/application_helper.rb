@@ -34,6 +34,7 @@ module ApplicationHelper
   end
 
   def stripe_icon
+    "<img src='https://app.saaspulse.io/images/stripe.png' style='vertical-align: middle; margin-right: 2px'/>"
   end
 
   def change_class(value, is_potential = false)
