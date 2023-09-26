@@ -313,18 +313,15 @@ ul {
           max-width: 0 !important;
           min-width: 0 !important;
         }
-        <%# .card-inner { %>
-        <%#   padding: 14px 0 11px !important; %>
-        <%#   vertical-align: top; %>
-        <%# } %>
-        .card-head {
-          padding-bottom: 0 !important;
+        .card-inner {
+          padding: 8px 10px 8px !important;
+        }
+        .card-value {
+          font-size:28px !important;
         }
         .card-heading {
           display: block;
-          max-width: 80px;
           /* make line break simultaneously */
-          line-height: 18px !important;
         }
         .board,
         .board__body,
@@ -532,6 +529,29 @@ ul {
         }
       }
 
+      .card-inner {
+        vertical-align: top;
+        padding: 16px 20px 16px;
+        height: 90px;
+      }
+      .card-head {
+        padding: 4px 0;
+      }
+      .card-heading {
+        line-height: 18px !important;
+        font-family:Helvetica, sans-serif;
+        font-size:16px;
+        line-height:22px;
+        font-weight:100;
+        color:#4b4b4b;
+      }
+      .card-value {
+        font-family:Helvetica, sans-serif;
+        font-size:36px;
+        line-height:32px;
+        font-weight:100;
+        color:#065d8c;
+      }
       .change {
         color: #34a853;
         letter-spacing: 0.5px;
@@ -597,18 +617,22 @@ ul {
                 <%= render partial: 'block_row', locals: { block1: block_mrr, block2: block_active_users } %>
 
                 <%- block_active_trials = render 'block', title: "Active trials", value: @content.total_in_trial, subValue2: "+#{@content.new_in_trial}", subLabel2: 'since yesterday', subValue1: currency_formatter('234', true), subLabel1: '', isPotential: true %>
-                <%- block_trials_converting = render 'block', title: "Trials converting today", value: @content.trials_converting_today[:data].size, subValue1: currency_formatter(@content.trials_converting_today[:totalValue] / 100, true), subLabel1: '', isPotential: true %>
+                <%- block_trials_converting = render 'block', title: "Converting today", value: @content.trials_converting_today[:data].size, subValue1: currency_formatter(@content.trials_converting_today[:totalValue] / 100, true), subLabel1: '', isPotential: true %>
                 <%= render partial: 'block_row', locals: { block1: block_active_trials, block2: block_trials_converting } %>
 
-                <%- block_canceling = render 'block', title: "Accounts canceling", value: @content.accounts_canceling[:data].size, subValue1: currency_formatter((@content.accounts_canceling[:totalValue] / 100) * -1), subLabel1: '' %>
+                <%- block_accounts_canceling = render 'block', title: "Accounts canceling", value: @content.accounts_canceling[:data].size, subValue1: currency_formatter((@content.accounts_canceling[:totalValue] / 100) * -1), subLabel1: '' %>
+                <%- block_trials_canceling = render 'block', title: "Trials canceling", value: @content.trials_canceling[:data].size, subValue1: currency_formatter((@content.trials_canceling[:totalValue] / 100) * -1), subLabel1: '' %>
+
                 <%- block_failing = render 'block', title: "Accounts overdue", value: @content.past_due[:data].size, subValue1: currency_formatter((@content.past_due[:totalValue] / 100) * -1), subLabel1: '' %>
-                <%= render partial: 'block_row', locals: { block1: block_canceling, block2: block_failing } %>
+                <%= render partial: 'block_row', locals: { block1: block_accounts_canceling, block2: block_trials_canceling } %>
+
+                <%= render partial: 'block_row', locals: { block1: block_failing, block2: nil } %>
 
                 <%= render 'stat_with_list', title: "Trials", list: @content.trials_converting, isPotential: true %>
                 <%= render 'stat_with_list', title: "Trials converted last 24 hours", list: @content.conversions_last_24_hrs, hideConversionDate: true %>
-                <%= render 'stat_with_list', title: "Accounts canceling", list: @content.accounts_canceling, hideConversionDate: true, isPotential: true, isPositive: false %>
-                <%= render 'stat_with_list', title: "Trials canceling", list: @content.trials_canceling, hideConversionDate: true, isPotential: true, isPositive: false %>
-                <%= render 'stat_with_list', title: "Past due", list: @content.past_due, hideConversionDate: true, isPotential: true, isPositive: false %>
+                <%= render 'stat_with_list', title: "Accounts canceling", list: @content.accounts_canceling, hideConversionDate: true, isPotential: true, isNegative: true %>
+                <%= render 'stat_with_list', title: "Trials canceling", list: @content.trials_canceling, hideConversionDate: true, isPotential: true, isNegative: true %>
+                <%= render 'stat_with_list', title: "Past due", list: @content.past_due, hideConversionDate: true, isPotential: true, isNegative: true %>
                 <%# <%= render 'stat_with_list', title: "Paused", list: @content.paused %>
                 <%# <%= render 'stat_with_list', title: "Unpaid", list: @content.unpaid %>
                 <%# <%= render 'stat_with_list', title: "Incomplete", list: @content.incomplete %>

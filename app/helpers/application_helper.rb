@@ -5,17 +5,16 @@ module ApplicationHelper
     :light
   end
 
-  def currency_formatter(value, is_potential = false, is_positive = true)
+  def currency_formatter(value, is_potential = false, is_negative = false)
 
     if is_potential
-      if is_positive
-        return "#{up_yellow}#{number_to_currency(value.to_i, precision: 0).gsub('-', '')}"
+      if is_negative
+        return "#{down}#{number_to_currency(value.to_i, precision: 0).gsub('-', '')}"
       else
-        return "#{down_yellow}#{number_to_currency(value.to_i, precision: 0).gsub('-', '')}"
+        return "#{up_yellow}#{number_to_currency(value.to_i, precision: 0).gsub('-', '')}"
       end
     end
     op = value.to_i >= 0 ? up : down
-    puts "OP: #{op}"
     return "#{op}#{number_to_currency(value.to_i, precision: 0).gsub('-', '')}"
   end
 
@@ -45,9 +44,15 @@ module ApplicationHelper
     "<img src='https://app.saaspulse.io/images/stripe.png' style='vertical-align: middle; margin-right: 2px'/>"
   end
 
-  def change_class(value, is_potential = false)
+  def change_class(value, is_potential = false, is_negative = false)
     return '' if value.blank?
-    return 'yellow' if is_potential
+    if is_potential
+      if is_negative
+        return 'red' 
+      else
+        return 'yellow' 
+      end
+    end
     if value.is_a?(Integer)
       return value >= 0 ? 'green' : 'red'
     else

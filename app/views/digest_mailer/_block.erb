@@ -2,15 +2,15 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
   <tbody>
     <tr style="">
-      <td align="" class="card-head" colspan="4" style="padding: 4px;">
-        <span class="card-heading" style="font-family:Helvetica, sans-serif; font-size:16px; line-height:22px; font-weight:100;color:#4b4b4b;">
+      <td align="" class="card-head" colspan="4">
+        <span class="card-heading">
           <%= title %>
         </span>
       </td>
     </tr>
     <tr style="">
       <td align="" style="padding: 4px;" colspan="4">
-        <span class="card-value chameleon-heading" style="font-family:Helvetica, sans-serif; font-size:36px; line-height:32px; font-weight:100;color:#065d8c;"><%= value %></span>
+        <span class="card-value chameleon-heading"><%= value %></span>
         <span class="change <%= change_class(subValue1 ||= '', isPotential ||= false) %>">
           <%= subValue1.html_safe ||= '' %>
         </span>
@@ -18,7 +18,7 @@
     </tr>
     <tr style="">
       <td align="" style="" colspan="4">
-        <div class="change-label ">
+        <div class="change-label">
           <%= subValue2 ||= '' %>
           <%= subLabel2 ||= '' %>
         </div>

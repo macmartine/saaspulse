@@ -20,7 +20,7 @@
                               <tbody>
                                 <tr>
                                   <td class="stat-head" colspan="6" style="padding-bottom: 8px; text-align: center;">
-                                    <span class="card-heading" style="font-family:Helvetica, sans-serif; font-size:16px; line-height:22px; font-weight:100;color:#4b4b4b;">
+                                    <span class="card-heading" style="">
                                       <%= title %>
                                     </span>
                                   </td>
@@ -34,8 +34,8 @@
                                     </span>
                                   </td>
                                   <td width="50%" style="text-align: left; vertical-align: bottom">
-                                    <span class="change <%= change_class(list[:totalValue] ||= '', isPotential ||= false) %>">
-                                      <%= currency_formatter(list[:totalValue] / 100, isPotential ||= false, isPositive ||= true).html_safe %>
+                                    <span class="change <%= change_class(list[:totalValue] ||= '', isPotential ||= false, isNegative ||= false) %>">
+                                      <%= currency_formatter(list[:totalValue] / 100, isPotential ||= false, isNegative ||= false).html_safe %>
                                     </span>
                                   </td>
                                 </tr>
@@ -61,7 +61,7 @@
                                 <tr>
                                   <td>
                                     <table width="100%" style="table-layout: fixed">
-                                      <%= render partial: 'customer_list', collection: list[:data], as: :item, locals: { hideConversionDate: (defined?(hideConversionDate) ? hideConversionDate : false), isPotential: (isPotential ||= false) } %>
+                                      <%= render partial: 'customer_list', collection: list[:data], as: :item, locals: { hideConversionDate: (defined?(hideConversionDate) ? hideConversionDate : false), isPotential: (isPotential ||= false), isNegative: (isNegative ||= false) } %>
                                     </table>
                                   </td>
                                 </tr>

@@ -20,8 +20,8 @@
 
   <td style="width: 80px; text-align: right">
     <span style="color: #a6a6a6; font-size: 13px">
-      <div class="change <%= change_class(item.price_after_discount / 100, isPotential ||= false) %>">
-        <%= currency_formatter(item.price_after_discount / 100, isPotential ||= false).html_safe %>
+      <div class="change <%= change_class(item.price_after_discount / 100, isPotential ||= false, isNegative ||= false) %>">
+        <%= currency_formatter(item.price_after_discount / 100, isPotential ||= false, isNegative ||= false).html_safe %>
       </div>
     </span>
   </td>
