@@ -626,8 +626,6 @@ ul {
                 <%- block_failing = render 'block', title: "Accounts overdue", value: @content.past_due[:data].size, subValue1: currency_formatter((@content.past_due[:totalValue] / 100) * -1), subLabel1: '' %>
                 <%= render partial: 'block_row', locals: { block1: block_accounts_canceling, block2: block_trials_canceling } %>
 
-                <%= render partial: 'block_row', locals: { block1: block_failing, block2: nil } %>
-
                 <%= render 'stat_with_list', title: "Trials", list: @content.trials_converting, isPotential: true %>
                 <%= render 'stat_with_list', title: "Trials converted last 24 hours", list: @content.conversions_last_24_hrs, hideConversionDate: true %>
                 <%= render 'stat_with_list', title: "Accounts canceling", list: @content.accounts_canceling, hideConversionDate: true, isPotential: true, isNegative: true %>
