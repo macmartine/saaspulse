@@ -9,7 +9,7 @@ class Account::ApplicationController < ApplicationController
     unless adding_team? || accepting_invitation?
       # So, if you have new onboarding steps to check for an enforce, do that here:
 
-      if !has_stripe_installations?
+      if current_user.details_provided? && !has_stripe_installations?
         if adding_stripe_integrations?
           return true
         else
