@@ -131,26 +131,26 @@ Rails.application.configure do
       api_token: ENV["POSTMARK_API_TOKEN"]
     }
 
-  elsif ENV["MAILGUN_SMTP_SERVER"].present?
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.default_options = {from: "noreply@#{ENV["MAILGUN_DOMAIN"]}"}
-    config.action_mailer.smtp_settings = {
-      # double warning: please don't modify this configuration.
-      # if you want to provide your own smtp configuration,
-      # please add it after the comment at the end of this file.
-      address: ENV["MAILGUN_SMTP_SERVER"],
-      port: ENV["MAILGUN_SMTP_PORT"],
-      domain: ENV["MAILGUN_DOMAIN"],
-      user_name: ENV["MAILGUN_SMTP_LOGIN"],
-      password: ENV["MAILGUN_SMTP_PASSWORD"],
-      authentication: "plain",
-      enable_starttls_auto: true
-    }
-
-    if inbound_email_enabled?
-      # use the same mail provider for inbound mail as we're using for outbound mail.
-      config.action_mailbox.ingress = :mailgun
-    end
+  # elsif ENV["EMAIL_SMTP_SERVER"].present?
+  #   config.action_mailer.delivery_method = :smtp
+  #   config.action_mailer.default_options = {from: "noreply@#{ENV["EMAIL_DOMAIN"]}"}
+  #   config.action_mailer.smtp_settings = {
+  #     # double warning: please don't modify this configuration.
+  #     # if you want to provide your own smtp configuration,
+  #     # please add it after the comment at the end of this file.
+  #     address: ENV["EMAIL_SMTP_SERVER"],
+  #     port: ENV["EMAIL_SMTP_PORT"],
+  #     domain: ENV["EMAIL_DOMAIN"],
+  #     user_name: ENV["EMAIL_SMTP_LOGIN"],
+  #     password: ENV["EMAIL_SMTP_PASSWORD"],
+  #     authentication: "plain",
+  #     enable_starttls_auto: true
+  #   }
+  #
+  #   if inbound_email_enabled?
+  #     # use the same mail provider for inbound mail as we're using for outbound mail.
+  #     config.action_mailbox.ingress = :mailgun
+  #   end
   end
 
   # ✅ YOUR APPLICATION'S CONFIGURATION
